@@ -1,10 +1,5 @@
 (use srfi-13)
 
-
-;(print (command-line-arguments) "??")
-;(exit)
-					;cli args
-
 (define cruise-control #t)
 (define dict-file-name "dict.txt")
 (define pin-len 4)
