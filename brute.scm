@@ -1,10 +1,6 @@
 (use srfi-13)
 
 
-;(print (command-line-arguments) "??")
-;(exit)
-					;cli args
-
 (define cruise-control #t)
 (define dict-file-name "dict.txt")
 (define pin-len 4)
@@ -70,10 +66,10 @@
 	    (dict-entry-exists? (cdr d) num)))
       #f))
 
-(define comp (if (> range-end range-start)
+(define comp (if direction-positive
 		 >
 		 <))
-(define op (if (> range-end range-start)
+(define op (if direction-positive
 	       add1
 	       sub1))
 (do ((x range-start (op i)))
