@@ -73,7 +73,7 @@
 	  "PHREAKSHOT \n"
 	  "\n"
 	  "brute [--cruise-control on] [--dict-file \"dict.txt\"] "
-	  "[--pin-len 4] [--start 100] [--end 200]"))
+	  "[--pin-len 4] [--start 100] [--end 200] [--pause 3.8]"))
   (exit))
 
 (define a 0)
