@@ -5,7 +5,7 @@ I am not responsible in any way for anything that happens to you, your health or
 USAGE:
 
 
-brute [--cruise-control on] [--dict-file \"dict.txt\"] [--pin-len 4] [--start 100] [--end 200] [--pause 3.8]
+brute [--cruise-control on] [--dict-file dict.txt] [--pin-len 4] [--start 100] [--end 200] [--pause 3.8]
 
 cruise-control: if cruise-control is passed as off, user must press enter between pin entries, in sequential mode, 
 user can press r for repeat, - for going back one, s for skip. if cruise-control on (default) program waits for
