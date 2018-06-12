@@ -70,7 +70,7 @@
 (define (usage)
   (print-gun)
   (print (string-append
-	  "PHREAKSHOT \n"
+	  "PHREAKSHOT v1.0 ©2018 a.se8seven (_a_t) gm...com\n"
 	  "\n"
 	  "brute [--cruise-control on] [--dict-file \"dict.txt\"] "
 	  "[--pin-len 4] [--start 100] [--end 200] [--pause 3.8]"))
