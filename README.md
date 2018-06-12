@@ -13,7 +13,7 @@ the value passed to pause in seconds between pin entries.
 
 
 
-dict-file: dictionary file (default dixt.txt)
+dict-file: dictionary file (default dict.txt)
 
 pin-len: length of pin (default 4)
 
