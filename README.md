@@ -104,5 +104,10 @@ dP*$  $  $$$ $$$
                                                         ```""
 </pre>
 
-PHREAKSHOT v1.0 ©2018 a.se8seven (_a_t) gm...com                                                       ```""
-illegal use not permitted, not responsible for any damage under any circumstances.
+PHREAKSHOT v1.0 ©2018 "Cactus cactus!"
+
+a.se8seven (_a_t) gm...com                                                      
+
+Illegal use not permitted, not responsible for any damage under any circumstances.
+
+Only allowed for use on your own systems.
