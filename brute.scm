@@ -1,5 +1,10 @@
 (use srfi-13)
 
+
+;(print (command-line-arguments) "??")
+;(exit)
+					;cli args
+
 (define cruise-control #t)
 (define dict-file-name "dict.txt")
 (define pin-len 4)
@@ -11,23 +16,31 @@
 (load "parse-cli.scm")
 (load "android-tap.scm")
 
+(define direction-positive (> range-end range-start))
+(define repeat-op (if direction-positive sub1 add1))
+(define subtract-op (if direction-positive - +))
+(define skip-op (if direction-positive add1 sub1))
 
 
 (define dict '())
 (define read-dict-file-ptr (if (file-exists? dict-file-name)
 			       (open-input-file  dict-file-name)
 			       #f))
-
-(define (press-combo i)
+(define i '())
+(define (press-combo)
   (if (not cruise-control)
       (let ((x (read-line)))
 	(when (not (string? i))
 	  (cond ((equal? x "-")
-	       (set! i (+ i 2)))
-	      ((equal? x "r")
-	       (set! i (add1 i)))
-	      ((equal? x "s")
-	       (set! i (sub1 i))))))
+		 (print 1 "??" i)
+		 (set! i (subtract-op i 2)))
+		((equal? x "r")
+		 (print 2 "??!" i)
+		 (set! i (repeat-op i))
+		 (print 3 "??!" i))
+		((equal? x "s")
+		 (print 3 "??")
+		 (set! i (skip-op i))))))
       (z duration: seconds-between-attempts))
   (let ((i (string-pad (if (string? i) i
 			   (number->string i))
@@ -41,7 +54,8 @@
       (when (not (eq? line #!eof))
 	(when (> (string-length line) 0)
 	  (printf "Trying Dict Entry ")
-	  (press-combo line)
+	  (set! i line)
+	  (press-combo)
 	  (set! dict (append dict `(,(string->number line)))))
 	(read-dict-file))))
   (read-dict-file)
@@ -62,12 +76,13 @@
 (define op (if (> range-end range-start)
 	       add1
 	       sub1))
-(do ((i range-start (op i)))
-    ((comp i range-end))
-  (if (and read-dict-file-ptr (dict-entry-exists? dict i))
-      (printf "Skipping sequential, already processed in dict: ~A~%" i)
+(do ((x range-start (op i)))
+    ((comp x range-end))
+  (if (and read-dict-file-ptr (dict-entry-exists? dict x))
+      (printf "Skipping sequential, already processed in dict: ~A~%" x)
       (begin (printf "Trying Sequential ")
-	     (press-combo i))))
+	     (set! i x)
+	     (press-combo))))
 (print "brute attempts complete!")
 (when read-dict-file-ptr
   (file-close read-dict-file-ptr))
