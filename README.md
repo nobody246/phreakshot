@@ -24,4 +24,6 @@ end: end of pin range
 pause: number of seconds to pause in between pin entries when cruise-control is on.
 
 
+only tested on kyocera-c6742a-android-5.1.1, might have to adjust coordinates for your device in config.scm.
 
+compile with csc.
