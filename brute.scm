@@ -16,30 +16,38 @@
 (define repeat-op (if direction-positive sub1 add1))
 (define subtract-op (if direction-positive - +))
 (define skip-op (if direction-positive add1 sub1))
-
+(define gte-comp (if direction-positive >= <=))
+(define lte-comp (if direction-positive <= >=))
 
 (define dict '())
 (define read-dict-file-ptr (if (file-exists? dict-file-name)
 			       (open-input-file  dict-file-name)
 			       #f))
 (define i '())
-(define (press-combo)
-  (if (not cruise-control)
-      (let ((x (read-line)))
-	(when (not (string? i))
-	  (cond ((equal? x "-")
-		 (set! i (subtract-op i 2)))
-		((equal? x "r")
-		 (set! i (repeat-op i)))
-		((equal? x "s")
-		 (set! i (skip-op i))))))
-      (z duration: seconds-between-attempts))
-  (let ((i (string-pad (if (string? i) i
-			   (number->string i))
-		       pin-len #\0)))
-    (printf "attempt: ~s~%" i)
-    (process-digit-str (string-append i "#"))))
 
+(define (press-combo)
+  (let ((no-skip #t))
+    (if (not cruise-control)
+	(let ((x (read-line)))
+	  (when (not (string? i))
+	    (cond ((equal? x "-")
+		   (if (gte-comp (subtract-op i 2) range-start)
+		       (set! i (subtract-op i 2))
+		       (set! no-skip #f)))
+		  ((equal? x "r")
+		   (set! i (repeat-op i)))
+		  ((equal? x "s")
+		   (if (lte-comp (skip-op i) (subtract-op range-end 1))
+		       (set! i (skip-op i))
+		       (set! no-skip #f))))))
+	(z duration: seconds-between-attempts))
+    (and-let* ((no-skip no-skip)
+	       (i (string-pad (if (string? i) i
+				  (number->string i))
+			      pin-len #\0)))
+      (printf "attempt: ~s~%" i)
+      (process-digit-str (string-append i "#")))))
+  
 (when read-dict-file-ptr
   (define (read-dict-file)
     (let ((line (read-line read-dict-file-ptr)))
@@ -51,6 +59,7 @@
 	  (set! dict (append dict `(,(string->number line)))))
 	(read-dict-file))))
   (read-dict-file)
+  (close-input-port read-dict-file-ptr)
   (print "Dict attempts complete!"))
   
 (define (dict-entry-exists? d num)
@@ -62,20 +71,19 @@
 	    (dict-entry-exists? (cdr d) num)))
       #f))
 
-(define comp (if direction-positive
-		 >
-		 <))
 (define op (if direction-positive
 	       add1
 	       sub1))
+(define loop-comp (if direction-positive > <))
+(set! i range-start)
 (do ((x range-start (op i)))
-    ((comp x range-end))
+    ((loop-comp x range-end))
   (if (and read-dict-file-ptr (dict-entry-exists? dict x))
-      (printf "Skipping sequential, already processed in dict: ~A~%" x)
+      (begin
+	(printf "Skipping sequential, already processed in dict: ~A~%" x)
+	(set! i x))
       (begin (printf "Trying Sequential ")
 	     (set! i x)
 	     (press-combo))))
 (print "brute attempts complete!")
-(when read-dict-file-ptr
-  (file-close read-dict-file-ptr))
 (exit)
