@@ -83,7 +83,7 @@
 	  "illegal use not permitted, not responsible for any damage under any\n"
 	  "circumstances.\n\n\n\n"
 	  "brute [--cruise-control on] [--dict-file dict.txt] "
-	  "[--pin-len 4] [--start 100] [--end 200] [--pause 3.8]"))
+	  "[--pin-len 4] [--start 9999] [--end 0000] [--pause 3.8]"))
   (exit))
 
 (define (parse-cli args)
