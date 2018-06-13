@@ -26,6 +26,8 @@ pause: number of seconds to pause in between pin entries when cruise-control is 
 
 only tested on kyocera-c6742a-android-5.1.1, might have to adjust coordinates for your device in config.scm.
 
+setup:
+program uses chicken-scheme using posix and srfi-13
 compile with csc.
 
 
