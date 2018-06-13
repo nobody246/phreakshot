@@ -68,7 +68,7 @@
 (define op (if direction-positive
 	       add1
 	       sub1))
-(do ((x range-start (op x)))
+(do ((x range-start (op i)))
     ((comp x range-end))
   (if (and read-dict-file-ptr (dict-entry-exists? dict x))
       (printf "Skipping sequential, already processed in dict: ~A~%" x)
